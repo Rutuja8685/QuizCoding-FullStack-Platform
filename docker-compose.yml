@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: quiz-app-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 7548
+      MYSQL_DATABASE: quizapp
+      MYSQL_USER: quizapp
+      MYSQL_PASSWORD: quizapp123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: quiz-app-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: 7548
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - quiz-network
+
+volumes:
+  mysql_data:
+
+networks:
+  quiz-network:
+    driver: bridge

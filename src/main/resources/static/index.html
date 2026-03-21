@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuizCoding - Challenge Yourself</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><strong>QuizCoding</strong></div>
+    <nav class="main-nav">
+      <a href="#home">Home</a>
+      <a href="#how-to-play">How to Play</a>
+      <a href="#quizzes">Quizzes</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#quizzes">
+      <button class="btn btn-primary" id="startBtn">Start Quiz</button>
+    </a>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-left">
+        <h1>Level Up Your Skills: Take the Programming Quiz</h1>
+        <p>
+          Are you ready to put your programming prowess to the test? Whether you're a seasoned
+          developer or just starting your coding journey, our quiz game is the perfect way to
+          challenge yourself and have fun while learning.
+        </p>
+        <a class="btn btn-cta" href="#quizzes">Explore Quizzes</a>
+      </div>
+      <div class="hero-right">
+        <div class="card">
+          <h3>Get started in 3 steps</h3>
+          <ol>
+            <li>Select a quiz category</li>
+            <li>Answer questions in time</li>
+            <li>See your score + rank</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-to-play" class="section">
+  <h2 class="section-title">How to Play</h2>
+  <p class="section-subtitle">Master your favorite languages in three simple steps.</p>
+  
+  <div class="cards-grid">
+    <article class="feature">
+      <div class="feature-icon">🚀</div>
+      <h4>Pick a Challenge</h4>
+      <p>Choose from JavaScript, Java, C++, or React. Each quiz is designed to test core concepts and logic.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">⏱️</div>
+      <h4>Race the Clock</h4>
+      <p>Answer multiple-choice questions under a timer. Precision and speed are the keys to a high rank.</p>
+    </article>
+
+    <article class="feature">
+      <div class="feature-icon">🏆</div>
+      <h4>Claim Your Spot</h4>
+      <p>Instantly view your results and see where you stand on the global leaderboard against other coders.</p>
+    </article>
+  </div>
+</section>
+
+    <section id="quizzes" class="section section-alt">
+      <h2>Quizzes</h2>
+      <div class="quiz-grid">
+        <div class="quiz-card">
+          <h3>JavaScript</h3>
+          <p>DOM, ES6, async, functions.</p>
+          <button class="btn btn-secondary" data-quiz="javascript">Play</button>
+        </div>
+        <div class="quiz-card">
+          <h3>Java</h3>
+          <p>OOP, collections, exceptions.</p>
+          <button class="btn btn-secondary" data-quiz="java">Play</button>
+        </div>
+        <div class="quiz-card">
+          <h3>C++</h3>
+          <p>STL, Pointers, and Memory.</p>
+          <button class="btn btn-secondary" data-quiz="cpp">Play</button>
+        </div>
+        <div class="quiz-card">
+          <h3>C</h3>
+          <p>Structures, Logic, and Syntax.</p>
+          <button class="btn btn-secondary" data-quiz="c">Play</button>
+        </div>
+        <div class="quiz-card">
+          <h3>React</h3>
+          <p>Hooks, Props, and State.</p>
+          <button class="btn btn-secondary" data-quiz="react">Play</button>
+        </div>
+        <div class="quiz-card">
+          <h3>Python</h3>
+          <p>Syntax, data types, logic.</p>
+          <button class="btn btn-secondary" data-quiz="python">Play</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="leaderboard" class="section">
+      <h2>Leaderboard</h2>
+      <p>Top coders right now</p>
+      <table class="leaderboard">
+        <thead>
+          <tr><th>#</th><th>Name</th><th>Score</th></tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <tr><td>1</td><td>Alice</td><td>98%</td></tr>
+          <tr><td>2</td><td>Ravi</td><td>95%</td></tr>
+          <tr><td>3</td><td>Sam</td><td>93%</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="about" class="section section-alt">
+  <div class="about-container">
+    <h2 class="section-title">About QuizCoding</h2>
+    <p class="about-text">
+      QuizCoding is a premier challenge platform designed for developers by developers. 
+      Our mission is to help you sharpen your algorithmic logic and syntax proficiency 
+      through daily competitive assessments.
+    </p>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-card animate-float">
+    <div class="contact-icon">✉️</div>
+    <h3>Email Support</h3>
+    <p>Have questions or feedback? Reach out to us at:</p>
+    <a href="mailto:support@quizcoding.com" class="email-link">support@quizcoding.com</a>
+  </div>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <div class="brand"><strong>QuizCoding</strong></div>
+            <p>Master programming languages through interactive quizzes. Learn, test, and rank up.</p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Explore Quizzes</h3>
+            <ul>
+                <li><a href="#quizzes">JavaScript</a></li>
+                <li><a href="#quizzes">Java</a></li>
+                <li><a href="#quizzes">Python</a></li>
+                <li><a href="#quizzes">React</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Help & Support</h3>
+            <ul>
+                <li><a href="#how-to-play">How to Play</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 QuizCoding. All rights reserved.</p>
+    </div>
+</footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
