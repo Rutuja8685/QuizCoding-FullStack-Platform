@@ -1,150 +1,142 @@
-// 1. GLOBAL VARIABLES
+// --- 1. GLOBAL VARIABLES ---
 let currentQuestions = [];
-let currentQuestionIndex = 0;
-let score = 0;
-let timerInterval;
-let timeLeft = 60;
+let currentIndex = 0;
+let userScore = 0;
+let timer;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. ELEMENT SELECTION ---
     const authOverlay = document.getElementById('authOverlay');
     const authContent = document.getElementById('authContent');
     const closeAuth = document.getElementById('closeAuth');
     const loginTrigger = document.getElementById('loginTrigger');
     const registerTrigger = document.getElementById('registerTrigger');
-    const javaPlayBtn = document.querySelector('[data-quiz="java"]');
 
-    // --- 2. AUTH MODAL LOGIC ---
+    // --- 2. AUTH LOGIC ---
     function renderLogin() {
         authContent.innerHTML = `
-            <h2 style="margin-bottom:20px; color:#333;">Log in to your profile</h2>
-            <button class="btn-google-auth">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" style="width:18px;"> Continue with Google
-            </button>
-            <div style="margin:15px 0; color:#888; font-size:12px;">OR</div>
-            <input type="text" class="auth-input-field" placeholder="Username or Email">
-            <input type="password" class="auth-input-field" placeholder="Password">
-            <button class="btn-auth-confirm">LOGIN</button>
-            <p style="margin-top:15px; font-size:14px;">New to QuizCoding? <a href="#" id="toRegister" style="color:#4285f4; text-decoration:none; font-weight:bold;">Sign Up</a></p>
+            <span id="closeAuth" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:24px;">&times;</span>
+            <h2 style="margin-bottom:20px; color:#333;">Log in</h2>
+            <input type="text" class="auth-input-field" placeholder="Username" style="width:90%; padding:10px; margin-bottom:10px;">
+            <input type="password" class="auth-input-field" placeholder="Password" style="width:90%; padding:10px; margin-bottom:15px;">
+            <button class="btn btn-cta" style="width:100%">LOGIN</button>
+            <p style="margin-top:15px;">New? <a href="#" id="toRegister" style="color:#2575fc;">Sign Up</a></p>
         `;
         document.getElementById('toRegister').onclick = (e) => { e.preventDefault(); renderRegister(); };
+        document.getElementById('closeAuth').onclick = () => authOverlay.style.display = 'none';
     }
 
     function renderRegister() {
         authContent.innerHTML = `
-            <h2 style="margin-bottom:20px; color:#333;">Join QuizCoding</h2>
-            <button class="btn-google-auth">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" style="width:18px;"> Continue with Google
-            </button>
-            <div style="margin:15px 0; color:#888; font-size:12px;">OR</div>
-            <input type="text" class="auth-input-field" placeholder="Full Name">
-            <input type="email" class="auth-input-field" placeholder="Email Address">
-            <input type="password" class="auth-input-field" placeholder="Create Password">
-            <button class="btn-auth-confirm">SIGN UP</button>
-            <p style="margin-top:15px; font-size:14px;">Already have an account? <a href="#" id="toLogin" style="color:#4285f4; text-decoration:none; font-weight:bold;">Login</a></p>
+            <span id="closeAuth" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:24px;">&times;</span>
+            <h2 style="margin-bottom:20px; color:#333;">Sign Up</h2>
+            <input type="text" class="auth-input-field" placeholder="Full Name" style="width:90%; padding:10px; margin-bottom:10px;">
+            <input type="email" class="auth-input-field" placeholder="Email" style="width:90%; padding:10px; margin-bottom:10px;">
+            <input type="password" class="auth-input-field" placeholder="Password" style="width:90%; padding:10px; margin-bottom:15px;">
+            <button class="btn btn-cta" style="width:100%">REGISTER</button>
+            <p style="margin-top:15px;">Member? <a href="#" id="toLogin" style="color:#2575fc;">Login</a></p>
         `;
         document.getElementById('toLogin').onclick = (e) => { e.preventDefault(); renderLogin(); };
+        document.getElementById('closeAuth').onclick = () => authOverlay.style.display = 'none';
     }
 
-    // --- 3. EVENT LISTENERS ---
-    if (loginTrigger) {
-        loginTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            renderLogin();
-            authOverlay.style.display = 'flex';
+    if (loginTrigger) loginTrigger.onclick = () => { renderLogin(); authOverlay.style.display = 'flex'; };
+    if (registerTrigger) registerTrigger.onclick = () => { renderRegister(); authOverlay.style.display = 'flex'; };
+    window.onclick = (e) => { if (e.target == authOverlay) authOverlay.style.display = 'none'; };
+
+    // --- 3. QUIZ INITIALIZATION ---
+    document.querySelectorAll('[data-quiz]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.getAttribute('data-quiz');
+            startQuiz(category);
         });
-    }
-
-    if (registerTrigger) {
-        registerTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            renderRegister();
-            authOverlay.style.display = 'flex';
-        });
-    }
-
-    if (closeAuth) {
-        closeAuth.onclick = () => { authOverlay.style.display = 'none'; };
-    }
-
-    window.onclick = (e) => {
-        if (e.target == authOverlay) authOverlay.style.display = 'none';
-    };
-
-    // --- 4. ATTACH QUIZ START ---
-    if (javaPlayBtn) {
-        javaPlayBtn.addEventListener('click', startJavaQuiz);
-    }
+    });
 });
 
-// --- 5. QUIZ LOGIC (Outside to ensure global scope) ---
-
-async function startJavaQuiz() {
-    console.log("Fetching Java questions...");
+// --- 4. CORE QUIZ FUNCTIONS ---
+async function startQuiz(category) {
     try {
-        // Ensure this URL matches your @GetMapping in QuestionController
-        const response = await fetch('http://localhost:8082/java'); 
-        currentQuestions = await response.json();
+        console.log(`Starting quiz for: ${category}`);
+        // This URL must match your Spring Boot @GetMapping("category/{category}")
+        const response = await fetch(`http://localhost:8082/question/category/${category}`);
         
+        if (!response.ok) throw new Error("Backend not responding");
+        
+        currentQuestions = await response.json();
+
         if (currentQuestions.length === 0) {
-            alert("No questions found for 'java' category.");
+            alert("No questions found in MySQL for this category!");
             return;
         }
 
-        // Hide UI and show Quiz
+        // UI Transition
         document.getElementById('home').style.display = 'none';
         document.getElementById('quizzes').style.display = 'none';
-        document.getElementById('quizContainer').style.display = 'block';
-        
+        document.getElementById('about').style.display = 'none';
+        document.getElementById('quizPage').style.display = 'block';
+
+        currentIndex = 0;
+        userScore = 0;
         showQuestion();
-        startTimer();
-    } catch (err) {
-        console.error("Fetch Error:", err);
-        alert("Failed to connect to Spring Boot. Check console (F12) for details.");
+        startTimer(30 * 60); // 30 Minute Timer
+    } catch (error) {
+        console.error("Fetch error:", error);
+        alert("Cannot connect to Spring Boot on port 8082. Ensure the server is running!");
     }
 }
 
 function showQuestion() {
-    const q = currentQuestions[currentQuestionIndex];
-    document.getElementById('questionText').innerText = `${currentQuestionIndex + 1}. ${q.questionTitle}`;
+    const q = currentQuestions[currentIndex];
+    document.getElementById('questionText').innerText = `${currentIndex + 1}. ${q.questionTitle}`;
     
-    // Injecting buttons with the correct onclick calls
-    const optionsHtml = `
-        <button class="btn-auth-confirm" style="background:#f8f9fa; color:#333; margin-bottom:10px;" onclick="checkAnswer('A')">A) ${q.option1}</button>
-        <button class="btn-auth-confirm" style="background:#f8f9fa; color:#333; margin-bottom:10px;" onclick="checkAnswer('B')">B) ${q.option2}</button>
-        <button class="btn-auth-confirm" style="background:#f8f9fa; color:#333; margin-bottom:10px;" onclick="checkAnswer('C')">C) ${q.option3}</button>
-        <button class="btn-auth-confirm" style="background:#f8f9fa; color:#333; margin-bottom:10px;" onclick="checkAnswer('D')">D) ${q.option4}</button>
-    `;
-    document.getElementById('optionsArea').innerHTML = optionsHtml;
+    const options = [q.option1, q.option2, q.option3, q.option4];
+    const area = document.getElementById('optionsArea');
+    area.innerHTML = '';
+
+    options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.style.cssText = "padding: 15px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.3s; background: #fff;";
+        
+        btn.onmouseover = () => btn.style.background = "#f0f4f8";
+        btn.onmouseout = () => btn.style.background = "#fff";
+        
+        btn.onclick = () => checkAnswer(opt, q.rightAnswer);
+        area.appendChild(btn);
+    });
 }
 
-function startTimer() {
-    timeLeft = 60;
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer').innerText = `Time Left: ${timeLeft}s`;
-        if (timeLeft <= 0) {
-            endQuiz();
-        }
-    }, 1000);
-}
-
-function checkAnswer(selected) {
-    if (selected === currentQuestions[currentQuestionIndex].rightAnswer) {
-        score++;
+function checkAnswer(selected, correct) {
+    if (selected === correct) {
+        userScore++;
     }
     
-    currentQuestionIndex++;
-    if (currentQuestionIndex < currentQuestions.length) {
+    currentIndex++;
+    if (currentIndex < currentQuestions.length) {
         showQuestion();
     } else {
         endQuiz();
     }
 }
 
+function startTimer(duration) {
+    let timeLeft = duration;
+    clearInterval(timer); // Clear any existing timer
+    timer = setInterval(() => {
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        document.getElementById('timer').innerText = `Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            endQuiz();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
 function endQuiz() {
-    clearInterval(timerInterval);
-    document.getElementById('quizContainer').style.display = 'none';
-    document.getElementById('resultContainer').style.display = 'block';
-    document.getElementById('finalScore').innerText = `Your Score: ${score}/${currentQuestions.length}`;
+    clearInterval(timer);
+    document.getElementById('quizPage').style.display = 'none';
+    document.getElementById('scorePage').style.display = 'block';
+    document.getElementById('userFinalScore').innerText = `Your Score: ${userScore}/${currentQuestions.length}`;
 }

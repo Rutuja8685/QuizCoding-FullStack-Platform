@@ -9,8 +9,14 @@ import com.Quiz.Quizappdata.repository.QuizRepository;
 @Service
 public class QuestionService {
     
+   
+
     @Autowired
-    private QuestionRepository questionRepository;
+    QuestionRepository questionRepository;
+
+    public List<Question> getTenRandomQuestions(String category) {
+        return questionRepository.findRandomQuestionsByCategory(category);
+    }
     
     @Autowired
     private QuizRepository quizRepository;

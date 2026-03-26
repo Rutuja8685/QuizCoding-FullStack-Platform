@@ -133,6 +133,21 @@
           <button class="btn btn-secondary" data-quiz="python">Play</button>
         </div>
       </div>
+      <div id="quizPage" style="display:none; padding: 50px; text-align: center;">
+    <div id="timer" style="font-size: 24px; color: red; margin-bottom: 20px;">Time Left: 30:00</div>
+    <div class="quiz-card">
+        <h2 id="questionText">Question goes here?</h2>
+        <div id="optionsArea" style="display: flex; flex-direction: column; gap: 10px;">
+            </div>
+        <button id="nextBtn" class="btn-auth-confirm" style="margin-top:20px;">Next Question</button>
+    </div>
+</div>
+
+<div id="scorePage" style="display:none; padding: 50px; text-align: center;">
+    <h1>Quiz Completed!</h1>
+    <h2 id="userFinalScore">Your Score: 0/10</h2>
+    <button onclick="location.reload()" class="btn-auth-confirm">Back to Home</button>
+</div>
     </section>
 
     <section id="leaderboard" class="section">
@@ -198,4 +213,3 @@
     </section></main>
     </body>
     </html>
-    

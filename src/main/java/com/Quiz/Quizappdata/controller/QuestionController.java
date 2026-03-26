@@ -2,7 +2,11 @@ package com.Quiz.Quizappdata.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,16 +21,24 @@ import com.Quiz.Quizappdata.Server.QuizResultService;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class QuestionController {
 
-    @Autowired
-    private QuestionService questionService;
     
     @Autowired
     private QuizService quizService;
 
     @Autowired
     private QuizResultService quizResultService;
+
+    @Autowired
+    QuestionService questionService;
+
+    @GetMapping("category/{category}")
+    public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) {
+        // This matches the method name we just created
+        return new ResponseEntity<>(questionService.getTenRandomQuestions(category), HttpStatus.OK);
+    }
 
     @GetMapping("/questions")
     public List<Question> getAllQuestions() {
@@ -37,12 +49,7 @@ public class QuestionController {
     public Quiz getQuiz(@RequestParam Integer quizId) {
         return quizService.getQuizById(quizId);
     }
-    @GetMapping("/java")
-    public List<Question> getJavaQuestions() {
-        // In a real app, you'd fetch these from the database using a Repository.
-        // For now, ensure these 10 questions are in your MySQL 'questions' table.
-        return questionService.getQuestionsByCategory("java");
-    }
+    
     
     @PostMapping("/submit")
     public QuizResult submitQuiz(@RequestBody QuizResult result) {
