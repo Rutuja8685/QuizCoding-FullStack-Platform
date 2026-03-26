@@ -37,6 +37,12 @@ public class QuestionController {
     public Quiz getQuiz(@RequestParam Integer quizId) {
         return quizService.getQuizById(quizId);
     }
+    @GetMapping("/java")
+    public List<Question> getJavaQuestions() {
+        // In a real app, you'd fetch these from the database using a Repository.
+        // For now, ensure these 10 questions are in your MySQL 'questions' table.
+        return questionService.getQuestionsByCategory("java");
+    }
     
     @PostMapping("/submit")
     public QuizResult submitQuiz(@RequestBody QuizResult result) {

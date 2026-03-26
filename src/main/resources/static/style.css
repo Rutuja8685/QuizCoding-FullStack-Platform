@@ -195,3 +195,93 @@ body {
 .quiz-card {
     animation: fadeInUp 0.6s ease-out;
 }
+/* Auth Overlay Styles */
+.auth-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-modal-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    font-size: 28px; cursor: pointer;
+    color: #999;
+}
+
+.btn-google-auth {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    background: #ebf3ff;
+    color: #4285f4;
+    border-radius: 4px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.auth-input-field {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-auth-confirm {
+    width: 100%;
+    padding: 14px;
+    background-color: #72a7ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.option-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: #f1f4f8;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.option-btn:hover {
+    background: #ebf3ff;
+    border-color: #72a7ff;
+}
+
+#timer {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e67e22;
+}

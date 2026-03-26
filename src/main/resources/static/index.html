@@ -25,6 +25,7 @@
     <a href="#quizzes">
       <button class="btn btn-primary" id="startBtn">Start Quiz</button>
     </a>
+    
   </header>
 
   <main>
@@ -49,7 +50,30 @@
         </div>
       </div>
     </section>
+    <div id="quizContainer" class="section" style="display: none;">
+    <div class="card quiz-box">
+        <div class="quiz-header">
+            <h2 id="quizTitle">Java Quiz</h2>
+            <div id="timer" class="timer">Time Left: 60s</div>
+        </div>
+        <hr>
+        <div id="questionArea">
+            <h3 id="questionText">Question goes here?</h3>
+            <div id="optionsArea" class="options-grid">
+                </div>
+        </div>
+        <button id="nextBtn" class="btn btn-primary">Next</button>
+        <button id="submitQuizBtn" class="btn btn-cta" style="display: none;">Submit Quiz</button>
+    </div>
+</div>
 
+<div id="resultContainer" class="section" style="display: none;">
+    <div class="card">
+        <h2>Quiz Completed!</h2>
+        <p id="finalScore">Your Score: 0/10</p>
+        <button onclick="location.reload()" class="btn btn-secondary">Try Again</button>
+    </div>
+</div>
     <section id="how-to-play" class="section">
       <h2 class="section-title">How to Play</h2>
       <p class="section-subtitle">Master your favorite languages in three simple steps.</p>
