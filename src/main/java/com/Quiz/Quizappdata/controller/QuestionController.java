@@ -20,10 +20,12 @@ import com.Quiz.Quizappdata.Server.QuizResult;
 import com.Quiz.Quizappdata.Server.QuizResultService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("question") // Fix this from "queation" to "question"
 @CrossOrigin(origins = "*")
-public class QuestionController {
 
+public class QuestionController {
+    @Autowired
+    private QuestionService questionService;
     
     @Autowired
     private QuizService quizService;
@@ -31,13 +33,10 @@ public class QuestionController {
     @Autowired
     private QuizResultService quizResultService;
 
-    @Autowired
-    QuestionService questionService;
-
-    @GetMapping("category/{category}")
+   @GetMapping("category/{category}")
     public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) {
-        // This matches the method name we just created
-        return new ResponseEntity<>(questionService.getTenRandomQuestions(category), HttpStatus.OK);
+        List<Question> questions = questionService.getTenRandomQuestions(category);
+        return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
     @GetMapping("/questions")
