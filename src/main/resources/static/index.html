@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
     <header class="site-header">
         <div class="brand"><strong>QuizCoding</strong></div>
         <nav class="main-nav">
@@ -68,32 +69,49 @@
             <h2 class="section-title">Available Quizzes</h2>
             <div class="quiz-grid">
                 <div class="quiz-card">
-                    <h3>JavaScript</h3>
-                    <button class="btn btn-secondary" data-quiz="javascript">Play</button>
-                </div>
-                <div class="quiz-card">
-                    <h3>Java</h3>
-                    <button class="btn btn-secondary" data-quiz="java">Play</button>
-                </div>
-                <div class="quiz-card">
-                    <h3>C++</h3>
-                    <button class="btn btn-secondary" data-quiz="cpp">Play</button>
-                </div>
-                <div class="quiz-card">
-                    <h3>C</h3>
-                    <button class="btn btn-secondary" data-quiz="c">Play</button>
-                </div>
-                <div class="quiz-card">
-                    <h3>React</h3>
-                    <button class="btn btn-secondary" data-quiz="react">Play</button>
-                </div>
+    <h3>JavaScript</h3>
+    <a href="quiz.html?category=JavaScript" target="_blank">
+        <button class="btn btn-secondary">Play</button>
+    </a>
+</div>
+
+<div class="quiz-card">
+    <h3>Java</h3>
+    <a href="quiz.html?category=Java" target="_blank">
+        <button class="btn btn-secondary">Play</button>
+    </a>
+</div>
+
+<div class="quiz-card">
+    <h3>C++</h3>
+    <a href="quiz.html?category=Cpp" target="_blank">
+        <button class="btn btn-secondary">Play</button>
+    </a>
+</div>
+                
                 <div class="quiz-card">
                     <h3>Python</h3>
-                    <button class="btn btn-secondary" data-quiz="python">Play</button>
+                    <a href="quiz.html?category=Python" target="_blank">
+                    <button class="btn btn-secondary">Play</button>
+                    </a>
                 </div>
-            </div>
+
+          <div class="quiz-card">
+                    <h3>C</h3>
+                    <a href="quiz.html?category=C" target="_blank">
+                    <button class="btn btn-secondary">Play</button>
+                    </a>
+                </div>
+
+                <div class="quiz-card">
+                    <h3>React</h3>
+                    <a href="quiz.html?category=React" target="_blank">
+                    <button class="btn btn-secondary">Play</button>
+                    </a>
+                </div>
         </section>
 
+        
         <section id="quizPage" class="section" style="display:none; text-align: center;">
             <div class="card quiz-box" style="max-width: 800px; margin: 0 auto; padding: 20px;">
                 <div id="timer" style="font-size: 24px; color: red; font-weight: bold; margin-bottom: 20px;">Time Left: 30:00</div>

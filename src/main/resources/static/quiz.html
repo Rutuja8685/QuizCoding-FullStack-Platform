@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Quiz - QuizCoding</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+    <div class="card quiz-box" style="max-width: 600px; width: 90%; padding: 30px; text-align: center;">
+    <div id="timerDisplay" style="font-size: 20px; font-weight: bold; color: #e74c3c; margin-bottom: 15px;">
+        Time Left: 20:00
+    </div>
+    <h1 id="quizTitle">Loading...</h1>
+    <hr>
+    <h2 id="questionText">Fetching your questions...</h2>
+    <div id="optionsArea" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;"></div>
+    
+    <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+        <p id="scoreTracker" style="font-weight: bold;"></p>
+        <button id="manualSubmit" class="btn btn-primary" style="background-color: #27ae60; border: none;">Submit Quiz</button>
+    </div>
+</div>
+
+    <script>
+        // 1. Get the category from the URL (e.g., ?category=Java)
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        document.getElementById('quizTitle').innerText = category + " Quiz";
+
+        let questions = [];
+        let index = 0;
+        let score = 0;
+
+        // 2. Call your Spring Boot API
+        async function startQuiz() {
+            try {
+                const response = await fetch(`http://localhost:8082/question/category/${category}`);
+                questions = await response.json();
+                displayQuestion();
+            } catch (err) {
+                alert("Backend Error: Make sure Spring Boot is running!");
+            }
+        }
+
+        function displayQuestion() {
+            if (index >= questions.length) {
+                document.body.innerHTML = `<h1>Finished! Final Score: ${score}/${questions.length}</h1>`;
+                return;
+            }
+
+            const q = questions[index];
+            document.getElementById('questionText').innerText = q.questionTitle;
+            const area = document.getElementById('optionsArea');
+            area.innerHTML = "";
+
+            [q.option1, q.option2, q.option3, q.option4].forEach(opt => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.className = "btn btn-secondary";
+                btn.onclick = () => {
+                    if (opt === q.rightAnswer) score++;
+                    index++;
+                    displayQuestion();
+                };
+                area.appendChild(btn);
+            });
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>

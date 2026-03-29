@@ -27,16 +27,16 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
     
-    @Autowired
-    private QuizService quizService;
+    // @Autowired
+    // private QuizService quizService;
 
-    @Autowired
-    private QuizResultService quizResultService;
+    // @Autowired
+    // private QuizResultService quizResultService;
 
    @GetMapping("category/{category}")
     public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) {
         List<Question> questions = questionService.getTenRandomQuestions(category);
-        return new ResponseEntity<>(questions, HttpStatus.OK);
+        return questionService.getQuestionsByCategory(category);
     }
 
     @GetMapping("/questions")
@@ -44,14 +44,14 @@ public class QuestionController {
         return questionService.getAllQuestions();
     }
     
-    @GetMapping("/quiz")
-    public Quiz getQuiz(@RequestParam Integer quizId) {
-        return quizService.getQuizById(quizId);
-    }
+    // @GetMapping("/quiz")
+    // public Quiz getQuiz(@RequestParam Integer quizId) {
+    //     return quizService.getQuizById(quizId);
+    // }
     
     
-    @PostMapping("/submit")
-    public QuizResult submitQuiz(@RequestBody QuizResult result) {
-        return quizResultService.saveResult(result);
-    }
+    // @PostMapping("/submit")
+    // public QuizResult submitQuiz(@RequestBody QuizResult result) {
+    //     return quizResultService.saveResult(result);
+    // }
 } // <--- This is the end of the class. Everything must be inside here.
