@@ -1,5 +1,7 @@
 package com.Quiz.Quizappdata.Server;
 
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,14 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "questions")
+@Table(name = "question")
 public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "question_title")
+    @Column(name = "question_title") 
     private String questionTitle;
 
     private String option1;
@@ -28,10 +30,13 @@ public class Question {
 
     private String category;
 
-    // Default Constructor
+    // IMPORTANT: This must be exactly like this to match your SQL output
+    @Column(name = "difficulty_level")
+    private String difficultyLevel;
+
     public Question() {}
 
-    // Getters and Setters
+    // GETTERS AND SETTERS
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -55,4 +60,7 @@ public class Question {
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    public String getDifficultyLevel() { return difficultyLevel; }
+    public void setDifficultyLevel(String difficultyLevel) { this.difficultyLevel = difficultyLevel; }
 }

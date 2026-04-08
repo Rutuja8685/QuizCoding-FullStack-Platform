@@ -2,72 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Live Quiz - QuizCoding</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body style="background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizCoding - Session</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .quiz-container { max-width: 700px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #timerDisplay { font-weight: bold; color: #dc3545; }
 
-    <div class="card quiz-box" style="max-width: 600px; width: 90%; padding: 30px; text-align: center;">
-    <div id="timerDisplay" style="font-size: 20px; font-weight: bold; color: #e74c3c; margin-bottom: 15px;">
-        Time Left: 20:00
-    </div>
-    <h1 id="quizTitle">Loading...</h1>
-    <hr>
-    <h2 id="questionText">Fetching your questions...</h2>
-    <div id="optionsArea" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;"></div>
-    
-    <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-        <p id="scoreTracker" style="font-weight: bold;"></p>
-        <button id="manualSubmit" class="btn btn-primary" style="background-color: #27ae60; border: none;">Submit Quiz</button>
+        .star-rating {
+    font-size: 60px;
+    color: #FFD700; /* Gold Color */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    animation: popIn 0.5s ease-out;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="quiz-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 id="quizTitle">Quiz</h2>
+            <div id="timerDisplay">Time Left: 20:00</div>
+        </div>
+
+        <hr>
+
+        <div id="quizContent">
+            <h4 id="questionText" class="mb-4">Fetching your questions...</h4>
+            <div id="optionsArea" class="d-grid gap-2">
+                </div>
+        </div>
     </div>
 </div>
 
-    <script>
-        // 1. Get the category from the URL (e.g., ?category=Java)
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category');
-        document.getElementById('quizTitle').innerText = category + " Quiz";
+<script>
+    // 1. Setup variables from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const level = urlParams.get('level');
 
-        let questions = [];
-        let index = 0;
-        let score = 0;
+    // UI elements
+    document.getElementById('quizTitle').innerText = `${category} (${level})`;
 
-        // 2. Call your Spring Boot API
-        async function startQuiz() {
-            try {
-                const response = await fetch(`http://localhost:8082/question/category/${category}`);
-                questions = await response.json();
-                displayQuestion();
-            } catch (err) {
-                alert("Backend Error: Make sure Spring Boot is running!");
-            }
-        }
+    let questions = [];
+    let index = 0;
+    let score = 0;
+    let timeLeft = 20 * 60; 
+    let timerId;
 
-        function displayQuestion() {
-            if (index >= questions.length) {
-                document.body.innerHTML = `<h1>Finished! Final Score: ${score}/${questions.length}</h1>`;
-                return;
+    // 2. Fetch Data from Spring Boot
+    async function startQuiz() {
+        try {
+            // URL MUST match your Spring Boot Controller Mapping
+            const response = await fetch(`http://localhost:8082/question/category/${category}/${level}`);
+            
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
             }
 
-            const q = questions[index];
-            document.getElementById('questionText').innerText = q.questionTitle;
-            const area = document.getElementById('optionsArea');
-            area.innerHTML = "";
+            questions = await response.json();
+            
+            if (questions.length > 0) {
+                console.log("Questions loaded!");
+                startCountdown();
+                loadNextQuestion();
+            } else {
+                document.getElementById('questionText').innerText = "No questions found for this selection.";
+            }
+        } catch (error) {
+            console.error("Backend error:", error);
+            document.getElementById('questionText').innerText = "Backend Error: Ensure Spring Boot is running on port 8082.";
+        }
+    }
 
-            [q.option1, q.option2, q.option3, q.option4].forEach(opt => {
-                const btn = document.createElement('button');
-                btn.innerText = opt;
-                btn.className = "btn btn-secondary";
-                btn.onclick = () => {
-                    if (opt === q.rightAnswer) score++;
-                    index++;
-                    displayQuestion();
-                };
-                area.appendChild(btn);
-            });
+    // 3. Display Logic
+    function loadNextQuestion() {
+        if (index >= questions.length) {
+            finishQuiz();
+            return;
         }
 
-        startQuiz();
-    </script>
+        const q = questions[index];
+        document.getElementById('questionText').innerText = q.questionTitle;
+        
+        const area = document.getElementById('optionsArea');
+        area.innerHTML = ""; 
+
+        const options = [q.option1, q.option2, q.option3, q.option4];
+        
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.className = "btn btn-outline-primary w-100 text-start p-3";
+            
+            btn.onclick = () => {
+                if (opt === q.rightAnswer) {
+                    score++;
+                }
+                index++;
+                loadNextQuestion();
+            };
+            area.appendChild(btn);
+        });
+    }
+
+    // 4. Timer & Finish Logic
+    function startCountdown() {
+        timerId = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            const display = document.getElementById('timerDisplay');
+            if (display) {
+                display.innerText = `Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+
+    function finishQuiz() {
+    clearInterval(timerId);
+    const total = questions.length;
+
+    // 1. Calculate the star rating (out of 5)
+    // Formula: (score / total) * 5, then rounded up
+    let starCount = Math.ceil((score / total) * 5);
+    
+    // Ensure at least 1 star is shown if they finished the quiz
+    if (score === 0) starCount = 1;
+
+    // 2. Create the string of star emojis
+    let stars = "⭐".repeat(starCount);
+
+    // 3. Update the Final Results View
+    document.querySelector('.quiz-container').innerHTML = `
+        <div class="text-center">
+            <h1 class="display-4">Quiz Completed!</h1>
+            
+            <div style="font-size: 50px; margin: 20px 0; filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));">
+                ${stars}
+            </div>
+
+            <h2 class="text-success my-4">Score: ${score} / ${total}</h2>
+            <p class="lead">Excellent effort on your ${category} quiz!</p>
+            
+            <div class="mt-4">
+                <button onclick="window.location.href='index.html'" class="btn btn-primary btn-lg">
+                    Back to Home
+                </button>
+                <button onclick="window.location.reload()" class="btn btn-outline-secondary btn-lg ms-2">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+    // Execute
+    startQuiz();
+</script>
+
 </body>
 </html>

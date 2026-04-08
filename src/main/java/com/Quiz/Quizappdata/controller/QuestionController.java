@@ -20,11 +20,11 @@ import com.Quiz.Quizappdata.Server.QuizResult;
 import com.Quiz.Quizappdata.Server.QuizResultService;
 
 @RestController
-@RequestMapping("question") // Fix this from "queation" to "question"
+@RequestMapping("question") // Make sure this is spelled correctly
 @CrossOrigin(origins = "*")
 
 public class QuestionController {
-    @Autowired
+        @Autowired
     private QuestionService questionService;
     
     // @Autowired
@@ -33,11 +33,14 @@ public class QuestionController {
     // @Autowired
     // private QuizResultService quizResultService;
 
-   @GetMapping("category/{category}")
-    public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) {
-        List<Question> questions = questionService.getTenRandomQuestions(category);
-        return questionService.getQuestionsByCategory(category);
-    }
+  @GetMapping("category/{category}/{level}")
+public ResponseEntity<List<Question>> getQuestions(@PathVariable String category, @PathVariable("level") String level) {
+    // Print to console to verify what Java is receiving
+    System.out.println("Received Category: " + category);
+    System.out.println("Received Level: " + level);
+    
+    return questionService.getQuestionsByCategoryAndLevel(category, level);
+}
 
     @GetMapping("/questions")
     public List<Question> getAllQuestions() {

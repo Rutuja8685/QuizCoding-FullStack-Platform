@@ -3,25 +3,15 @@ let currentQuestions = [];
 let currentQuestionIndex = 0;
 let userScore = 0;
 
-// 1. EVENT LISTENERS: Listen for category selection
+// EVENT LISTENERS: Listen for category selection on the Home Page
 document.querySelectorAll('.play-btn').forEach(button => {
     button.addEventListener('click', (event) => {
-        const category = event.currentTarget.getAttribute('data-quiz');
-        // This opens a new tab
-        const quizWindow = window.open('', '_blank');
-        
-        // You can now write the quiz content to that new window
-        quizWindow.document.write(`
-            <html>
-                <head><title>${category} Quiz</title></head>
-                <body>
-                    <h1>Starting ${category} Quiz...</h1>
-                    <div id="questionArea"></div>
-                    </body>
-            </html>
-        `);
-    });
+        const category = "Python"; 
+const level = "Easy"; // Ensure this matches the JSON exactly (Capital E)
+        // Redirect to the quiz page with the selected category and level
+        window.location.href = `quiz.html?category=${category}&level=${level}`;
 });
+
 // 2. FETCH: Get data from Spring Boot
 async function fetchQuestions(category) {
     try {
@@ -102,8 +92,7 @@ function showFinalScore() {
         `Quiz Completed! Your Final Score: ${userScore} / ${currentQuestions.length}`;
 }
 // Existing global variables
-const urlParams = new URLSearchParams(window.location.search);
-const category = urlParams.get('category');
+
 document.getElementById('quizTitle').innerText = category + " Quiz";
 
 // 1. Setup variables

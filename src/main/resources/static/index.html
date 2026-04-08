@@ -45,13 +45,19 @@
         </section>
 
         <section id="how-to-play" class="section">
-            <h2 class="section-title">How to Play</h2>
+            <h2 class="section-title">🎮 How to Play Guidelines</h2>
             <div class="cards-grid">
                 <article class="feature">
                     <div class="feature-icon">🚀</div>
-                    <h4>Pick a Challenge</h4>
-                    <p>Choose from JavaScript, Java, C++, or React.</p>
-                </article>
+                    <h4>🚀 Box 1: Pick a Challenge</h4>
+                    <p>1)Select Your Tech Stack: Choose your expertise from core programming domains including Java, Python, C++, or React.</p>
+                    <p>
+                        Dynamic Difficulty: Pick a level—Easy, Medium, or Hard—to test specific logic and syntax.
+                    </p>    
+                    <p>
+                        Live Data Fetching: Experience seamless performance as questions are pulled dynamically from our MySQL database via REST APIs.
+                    </p>    
+                        </article>
                 <article class="feature">
                     <div class="feature-icon">⏱️</div>
                     <h4>Race the Clock</h4>
@@ -66,51 +72,65 @@
         </section>
 
         <section id="quizzes" class="section section-alt">
-            <h2 class="section-title">Available Quizzes</h2>
-            <div class="quiz-grid">
-                <div class="quiz-card">
-    <h3>JavaScript</h3>
-    <a href="quiz.html?category=JavaScript" target="_blank">
-        <button class="btn btn-secondary">Play</button>
-    </a>
-</div>
+    <h2 class="section-title">Available Quizzes</h2>
+    <div class="quiz-grid" style="display: flex; flex-direction: column; gap: 20px;">
 
-<div class="quiz-card">
-    <h3>Java</h3>
-    <a href="quiz.html?category=Java" target="_blank">
-        <button class="btn btn-secondary">Play</button>
-    </a>
-</div>
+        <div class="quiz-card" style="width: 100%; text-align: left; padding: 20px;">
+            <h3>Python Quiz</h3>
+            <div class="button-group">
+                <a href="quiz.html?category=Python&level=Easy" target="_blank"><button class="btn btn-secondary">Easy Python</button></a>
+                <a href="quiz.html?category=Python&level=Medium" target="_blank"><button class="btn btn-secondary">Medium Python</button></a>
+                <a href="quiz.html?category=Python&level=Hard" target="_blank"><button class="btn btn-secondary">Hard Python</button></a>
+            </div>
+        </div>
 
-<div class="quiz-card">
-    <h3>C++</h3>
-    <a href="quiz.html?category=Cpp" target="_blank">
-        <button class="btn btn-secondary">Play</button>
-    </a>
-</div>
-                
-                <div class="quiz-card">
-                    <h3>Python</h3>
-                    <a href="quiz.html?category=Python" target="_blank">
-                    <button class="btn btn-secondary">Play</button>
-                    </a>
-                </div>
+        <div class="quiz-card" style="width: 100%; text-align: left; padding: 20px;">
+            <h3>C Programming Quiz</h3>
+            <div class="button-group">
+                <a href="quiz.html?category=C&level=Easy" target="_blank"><button class="btn btn-secondary">Easy C</button></a>
+                <a href="quiz.html?category=C&level=Medium" target="_blank"><button class="btn btn-secondary">Medium C</button></a>
+                <a href="quiz.html?category=C&level=Hard" target="_blank"><button class="btn btn-secondary">Hard C</button></a>
+            </div>
+        </div>
 
-          <div class="quiz-card">
-                    <h3>C</h3>
-                    <a href="quiz.html?category=C" target="_blank">
-                    <button class="btn btn-secondary">Play</button>
-                    </a>
-                </div>
+        <div class="quiz-card" style="width: 100%; text-align: left; padding: 20px;">
+            <h3>Java Quiz</h3>
+            <div class="button-group">
+                <a href="quiz.html?category=Java&level=Easy" target="_blank"><button class="btn btn-secondary">Easy Java</button></a>
+                <a href="quiz.html?category=Java&level=Medium" target="_blank"><button class="btn btn-secondary">Medium Java</button></a>
+                <a href="quiz.html?category=Java&level=Hard" target="_blank"><button class="btn btn-secondary">Hard Java</button></a>
+            </div>
+        </div>
 
-                <div class="quiz-card">
-                    <h3>React</h3>
-                    <a href="quiz.html?category=React" target="_blank">
-                    <button class="btn btn-secondary">Play</button>
-                    </a>
-                </div>
-        </section>
+        <div class="quiz-card" style="width: 100%; text-align: left; padding: 20px;">
+            <h3>C++ Quiz</h3>
+            <div class="button-group">
+                <a href="quiz.html?category=Cpp&level=Easy" target="_blank"><button class="btn btn-secondary">Easy C++</button></a>
+                <a href="quiz.html?category=Cpp&level=Medium" target="_blank"><button class="btn btn-secondary">Medium C++</button></a>
+                <a href="quiz.html?category=Cpp&level=Hard" target="_blank"><button class="btn btn-secondary">Hard C++</button></a>
+            </div>
+        </div>
 
+        <div class="quiz-card" style="width: 100%; text-align: left; padding: 20px;">
+            <h3>React Quiz</h3>
+            <div class="button-group">
+                <a href="quiz.html?category=React&level=Easy" target="_blank"><button class="btn btn-secondary">Easy React</button></a>
+                <a href="quiz.html?category=React&level=Medium" target="_blank"><button class="btn btn-secondary">Medium React</button></a>
+                <a href="quiz.html?category=React&level=Hard" target="_blank"><button class="btn btn-secondary">Hard React</button></a>
+            </div>
+        </div>
+
+        <div class="quiz-card" style="width: 100%; text-align: left; padding: 20px;">
+            <h3>JavaScript Quiz</h3>
+            <div class="button-group">
+                <a href="quiz.html?category=JavaScript&level=Easy" target="_blank"><button class="btn btn-secondary">Easy JS</button></a>
+                <a href="quiz.html?category=JavaScript&level=Medium" target="_blank"><button class="btn btn-secondary">Medium JS</button></a>
+                <a href="quiz.html?category=JavaScript&level=Hard" target="_blank"><button class="btn btn-secondary">Hard JS</button></a>
+            </div>
+        </div>
+
+    </div>
+</section>
         
         <section id="quizPage" class="section" style="display:none; text-align: center;">
             <div class="card quiz-box" style="max-width: 800px; margin: 0 auto; padding: 20px;">

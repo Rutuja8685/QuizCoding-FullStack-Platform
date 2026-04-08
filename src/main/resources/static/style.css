@@ -376,3 +376,114 @@ body {
     font-size: 0.9rem;
     color: #7f8c8d;
 }
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap; /* Keeps it looking good on mobile */
+}
+/* Reduce spacing between sections */
+section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+}
+
+/* Remove huge gap between Leaderboard and About */
+#leaderboard, #about {
+    margin-bottom: 0 !important;
+}
+
+/* Fix Hero Section height so it doesn't push content too far down */
+.hero-section {
+    padding: 80px 0;
+    min-height: auto !important; /* Prevents huge empty space on large screens */
+}
+
+/* Professional Card Hover Effect */
+.p-4:hover {
+    transform: translateY(-10px);
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+/* --- About Section Styling --- */
+#about {
+    padding: 80px 0; /* Consistent padding for professional breathing room */
+    background-color: #ffffff;
+}
+
+#about h2 {
+    color: #2c3e50;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+/* The blue accent line under the title */
+#about h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #007bff, #00d4ff);
+    border-radius: 2px;
+}
+
+#about .lead {
+    color: #007bff;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+#about p {
+    color: #555;
+    line-height: 1.8;
+}
+
+/* Styling the Feature List */
+#about ul.list-unstyled li {
+    margin-bottom: 15px;
+    padding-left: 30px;
+    position: relative;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+/* Adding the custom Checkmark */
+#about ul.list-unstyled li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* The Feature Box (The Blue Card on the right) */
+.about-feature-card {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 15px 30px rgba(0, 123, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.about-feature-card:hover {
+    transform: scale(1.03);
+}
+
+/* --- Responsive Fixes --- */
+@media (max-width: 991px) {
+    #about .col-lg-6 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    #about h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #about ul.list-unstyled li {
+        display: inline-block;
+        margin: 10px;
+    }
+}
