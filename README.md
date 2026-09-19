@@ -125,7 +125,6 @@ docker-compose up -d
 
 This will start:
 - MySQL on port 3306 (credentials: quizapp/quizapp123)
-- PhpMyAdmin on port 8081 (access at http://localhost:8081)
 
 ### 2. Build the Application
 
@@ -240,8 +239,6 @@ mvn spring-boot:run -Dspring-boot.run.arguments="-Dspring.devtools.restart.enabl
 Access PhpMyAdmin at http://localhost:8081 with:
 - Server: mysql
 - Username: root
-- Password: 7548
-
 ### View Logs
 ```bash
 tail -f application.log
@@ -271,6 +268,6 @@ For issues or questions, please create an issue in the repository or contact the
 
 ## 👤 Author
 **Rutuja Karande**
-- **LinkedIn:** (https://www.linkedin.com/in/rutuja-karande-672ba6313)
+- **LinkedIn:** (https://www.linkedin.com/in/rutuja-karande/)
 - **GitHub:** [github.com/Rutuja8685](https://github.com/Rutuja8685)
 **Happy Learning! 📚**
