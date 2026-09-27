@@ -15,7 +15,7 @@ const level = "Easy"; // Ensure this matches the JSON exactly (Capital E)
 // 2. FETCH: Get data from Spring Boot
 async function fetchQuestions(category) {
     try {
-        const response = await fetch(`http://localhost:8082/question/category/${category}`);
+        const response = await fetch(`/question/category/${category}`);
         const data = await response.json();
 
         if (data && data.length > 0) {
@@ -153,7 +153,7 @@ document.getElementById('manualSubmit').onclick = function() {
 // 4. Load Data from Spring Boot
 async function startQuiz() {
     try {
-        const response = await fetch(`http://localhost:8082/question/category/${category}`);
+        const response = await fetch(`/question/category/${category}`);
         questions = await response.json();
         
         if (questions.length > 0) {
