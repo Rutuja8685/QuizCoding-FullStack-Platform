@@ -62,7 +62,7 @@
     async function startQuiz() {
         try {
             // URL MUST match your Spring Boot Controller Mapping
-            const response = await fetch(`http://localhost:8082/question/category/${category}/${level}`);
+            const response = await fetch(`/question/category/${category}/${level}`);
             
             if (!response.ok) {
                 throw new Error("Network response was not ok");
